@@ -14,57 +14,38 @@ public class Main {
         employees[7] = new Employee("Даня", "Владимирович", "Буртыненко", 4, 75642);
         employees[8] = new Employee("Дяхон", "Викторович", "Гнебедин", 5, 83675);
 
-        System.out.println("Самый хорошо оплачиваемый работник - "+findTheBestPaidWorker()+
-                ", с зарплатой в "+findMaxWage()+" руб.");
-        System.out.println("Самый плохо оплачиваемый работник - "+findTheWorstPaidWorker()+
-                ", с зарплатой в "+findMinWage()+" руб.");
-        Main.fullName();
-        Main.printInformation();
-        System.out.println("Суммарные затраты на зарплаты сотрудникам = " + Main.totalWage() + " руб. в месяц.");
-        System.out.println("Наименьшая зарплата среди сотрудников = " + Main.findMinWage() + " руб.");
+        System.out.println("Самый хорошо оплачиваемый работник - "+findTheBestPaidWorker().getFullName()+
+                ", с зарплатой в "+findTheBestPaidWorker().getWage()+" руб.");
+        System.out.println("Самый плохо оплачиваемый работник - "+findTheWorstPaidWorker().getFullName()+
+                ", с зарплатой в "+findTheWorstPaidWorker().getWage()+" руб.");
+        fullName();
+        printInformation();
+        System.out.println("Суммарные затраты на зарплаты сотрудникам = " + totalWage() + " руб. в месяц.");
+        System.out.println("Наименьшая зарплата среди сотрудников = " + findTheWorstPaidWorker().getWage() + " руб.");
         System.out.println("Средняя зарплата на предприятии = " + Main.middleWage() + " руб.");
 
     }
 
-    private static int findMaxWage() {
-        int wage = 0;
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getWage() > wage) {
-                wage = employees[i].getWage();
-            }
-        }
-        return wage;
-    }
 
-    private static String findTheBestPaidWorker() {
-        String bestWorker = null;
+    private static Employee findTheBestPaidWorker() {
+        Employee bestWorker = null;
         int wage = 0;
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getWage() > wage) {
                 wage = employees[i].getWage();
-                bestWorker = employees[i].getFullName();
+                bestWorker = employees[i];
             }
         }
         return bestWorker;
     }
 
-    private static int findMinWage() {
-        int wage = findMaxWage();
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i].getWage() < wage) {
-                wage = employees[i].getWage();
-            }
-        }
-        return wage;
-    }
-
-    private static String findTheWorstPaidWorker() {
-        String worstPaidWorker = null;
-        int wage = findMaxWage();
+    private static Employee findTheWorstPaidWorker() {
+        Employee worstPaidWorker = null;
+        int wage = findTheBestPaidWorker().getWage();
         for (int i = 0; i < employees.length; i++) {
             if (employees[i].getWage() < wage) {
                 wage=employees[i].getWage();
-                worstPaidWorker = employees[i].getFullName();
+                worstPaidWorker = employees[i];
             }
         }
         return worstPaidWorker;
@@ -91,8 +72,8 @@ public class Main {
     private static int totalWage() {
         int totalSum = 0;
         for (int i = 0; i < employees.length; i++) {
+            if (employees[i].getWage()>1)// Добавил проверку, что если массив не заполнен до конца, то эти пустые элементы массива не учитываются
             totalSum = totalSum + employees[i].getWage();
-            if (i == employees.length - 1) ;
         }
         return totalSum;
     }
